@@ -2,6 +2,8 @@
 
 Chaque évolution est décrite par son **résultat attendu**, les **couches** qu'elle touche et quelques **pistes**. Il n'y a pas de solution : c'est à vous de chercher.
 
+Les captures d'écran sont données **à titre indicatif** : elles montrent une réalisation possible, pas un modèle à reproduire. Libre à vous de faire autrement.
+
 Le nombre d'étoiles indique la difficulté. Vous choisissez librement, avec une seule règle : **au moins une** de vos évolutions doit porter le symbole 🧱. Ce sont celles qui font voyager une donnée de la couche données jusqu'à l'interface.
 
 | Évolution | Difficulté | Couches | |
@@ -11,20 +13,21 @@ Le nombre d'étoiles indique la difficulté. Vous choisissez librement, avec une
 | [3. Rechercher une crypto](#3-rechercher-une-crypto) | ⭐ | ViewModel, interface |  |
 | [4. Suivre d'autres cryptos](#4-suivre-dautres-cryptos) | ⭐ | Repository |  |
 | [5. Choisir le thème clair ou sombre](#5-choisir-le-thème-clair-ou-sombre) | ⭐ | Interface |  |
-| [6. Afficher les logos](#6-afficher-les-logos) | ⭐⭐ | Bibliothèques, modèle, interface |  |
-| [7. Un squelette de chargement](#7-un-squelette-de-chargement) | ⭐⭐ | Interface |  |
-| [8. Faire clignoter le prix qui change](#8-faire-clignoter-le-prix-qui-change) | ⭐⭐ | Interface |  |
-| [9. Rafraîchir en tirant la liste](#9-rafraîchir-en-tirant-la-liste) | ⭐⭐ | ViewModel, état, interface |  |
-| [10. Rafraîchir automatiquement](#10-rafraîchir-automatiquement) | ⭐⭐ | ViewModel |  |
-| [11. Les favoris](#11-les-favoris) | ⭐⭐ | Repository, ViewModel, état, interface | 🧱 |
-| [12. Un convertisseur](#12-un-convertisseur) | ⭐⭐ | ViewModel, état, interface |  |
-| [13. Changer de devise](#13-changer-de-devise) | ⭐⭐ | API, repository, ViewModel, interface | 🧱 |
-| [14. Des messages d'erreur précis](#14-des-messages-derreur-précis) | ⭐⭐ | API, repository, ViewModel, état, interface | 🧱 |
-| [15. Garder les favoris après fermeture](#15-garder-les-favoris-après-fermeture) | ⭐⭐⭐ | Bibliothèques, repository |  |
-| [16. Le graphique du prix](#16-le-graphique-du-prix) | ⭐⭐⭐ | API, repository, modèle, ViewModel, interface | 🧱 |
-| [17. Tester le ViewModel](#17-tester-le-viewmodel) | ⭐⭐⭐ | Tests, bibliothèques |  |
-| [18. Tester l'interface](#18-tester-linterface) | ⭐⭐⭐ | Tests, bibliothèques |  |
-| [19. Votre idée](#19-votre-idée) | libre | – |  |
+| [6. Créer votre propre thème](#6-créer-votre-propre-thème) | ⭐ | Interface (thème) |  |
+| [7. Afficher les logos](#7-afficher-les-logos) | ⭐⭐ | Bibliothèques, modèle, interface |  |
+| [8. Un squelette de chargement](#8-un-squelette-de-chargement) | ⭐⭐ | Interface |  |
+| [9. Faire clignoter le prix qui change](#9-faire-clignoter-le-prix-qui-change) | ⭐⭐ | Interface |  |
+| [10. Rafraîchir en tirant la liste](#10-rafraîchir-en-tirant-la-liste) | ⭐⭐ | ViewModel, état, interface |  |
+| [11. Rafraîchir automatiquement](#11-rafraîchir-automatiquement) | ⭐⭐ | ViewModel |  |
+| [12. Les favoris](#12-les-favoris) | ⭐⭐ | Repository, ViewModel, état, interface | 🧱 |
+| [13. Un convertisseur](#13-un-convertisseur) | ⭐⭐ | ViewModel, état, interface |  |
+| [14. Changer de devise](#14-changer-de-devise) | ⭐⭐ | API, repository, ViewModel, interface | 🧱 |
+| [15. Des messages d'erreur précis](#15-des-messages-derreur-précis) | ⭐⭐ | API, repository, ViewModel, état, interface | 🧱 |
+| [16. Garder les favoris après fermeture](#16-garder-les-favoris-après-fermeture) | ⭐⭐⭐ | Bibliothèques, repository |  |
+| [17. Le graphique du prix](#17-le-graphique-du-prix) | ⭐⭐⭐ | API, repository, modèle, ViewModel, interface | 🧱 |
+| [18. Tester le ViewModel](#18-tester-le-viewmodel) | ⭐⭐⭐ | Tests, bibliothèques |  |
+| [19. Tester l'interface](#19-tester-linterface) | ⭐⭐⭐ | Tests, bibliothèques |  |
+| [20. Votre idée](#20-votre-idée) | libre | – |  |
 
 > [!TIP]
 > Commencez par une ⭐ : mieux vaut trois évolutions terminées qu'une ⭐⭐⭐ qui ne fonctionne pas.
@@ -36,6 +39,8 @@ Le nombre d'étoiles indique la difficulté. Vous choisissez librement, avec une
 C'est la plus petite évolution qui traverse **toutes** les couches : vous refaites seuls le trajet vu en séance. Un bon point de départ.
 
 🎯 L'écran de détail affiche, sous la variation, le prix le plus haut et le prix le plus bas des dernières 24 heures.
+
+<img src="img/evo-haut-bas.png" width="360" alt="Le plus haut et le plus bas sous la variation">
 
 📏 Contraintes :
 
@@ -51,6 +56,8 @@ C'est la plus petite évolution qui traverse **toutes** les couches : vous refai
 
 🎯 L'utilisateur choisit l'ordre de la liste : par prix, par variation sur 24h ou par nom.
 
+<img src="img/evo-tri.png" width="360" alt="Des puces de tri au-dessus de la liste">
+
 📏 Contraintes :
 
 - Le tri est fait dans le **ViewModel**, pas dans le composable.
@@ -63,6 +70,8 @@ C'est la plus petite évolution qui traverse **toutes** les couches : vous refai
 ## 3. Rechercher une crypto
 
 🎯 Un champ de texte au-dessus de la liste filtre les cryptos par nom ou par symbole, sans tenir compte des majuscules.
+
+<img src="img/evo-recherche.png" width="360" alt="Un champ de recherche qui filtre la liste">
 
 📏 Contraintes :
 
@@ -90,6 +99,8 @@ C'est la plus petite évolution qui traverse **toutes** les couches : vous refai
 
 🎯 Un bouton dans la barre de titre bascule entre le thème clair et le thème sombre, quel que soit le réglage du téléphone.
 
+<img src="img/evo-theme-sombre.png" width="360" alt="La liste en thème sombre"> <img src="img/evo-theme-clair.png" width="360" alt="La liste en thème clair">
+
 📏 Contraintes :
 
 - Le choix s'applique aux **deux** écrans.
@@ -99,9 +110,28 @@ C'est la plus petite évolution qui traverse **toutes** les couches : vous refai
 
 ---
 
-## 6. Afficher les logos
+## 6. Créer votre propre thème
+
+🎯 L'application a sa propre identité visuelle : une palette de couleurs **et** une typographie différentes de celles fournies.
+
+<img src="img/evo-theme-perso.png" width="360" alt="La liste avec une autre palette et une autre police">
+
+📏 Contraintes :
+
+- Les couleurs et la typographie sont définies **dans le thème** (`theme/`), pas texte par texte dans les écrans. Si vous avez respecté les styles du thème au TP 2, vous n'avez presque rien à changer dans `ui`.
+- Le thème clair et le thème sombre sont tous les deux cohérents et lisibles.
+- La police est une vraie police, ajoutée aux ressources du projet.
+- Le vert et le rouge des variations restent lisibles sur vos nouveaux fonds.
+
+💡 Pistes : [le thème Material 3](https://developer.android.com/develop/ui/compose/designsystems/material3), dont `Typography` ; le [Material Theme Builder](https://material-foundation.github.io/material-theme-builder/) pour générer une palette ; [Google Fonts](https://fonts.google.com/) pour trouver une police, et [les polices dans les ressources Compose Multiplatform](https://kotlinlang.org/docs/multiplatform/compose-multiplatform-resources-usage.html) pour la charger.
+
+---
+
+## 7. Afficher les logos
 
 🎯 Chaque ligne de la liste, et l'écran de détail, affichent le logo de la crypto.
+
+<img src="img/evo-logos.png" width="360" alt="Le logo devant chaque crypto">
 
 📦 Fourni : les logos sont disponibles à l'adresse suivante, avec le symbole en minuscules.
 
@@ -125,9 +155,11 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 ---
 
-## 7. Un squelette de chargement
+## 8. Un squelette de chargement
 
 🎯 Pendant le chargement, l'écran n'affiche plus un indicateur qui tourne mais un **squelette** : des lignes grises à la place des cryptos, parcourues par un reflet animé (effet *shimmer*).
+
+<img src="img/evo-squelette.png" width="360" alt="Des blocs gris à la place des lignes">
 
 📏 Contraintes :
 
@@ -140,11 +172,13 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 ---
 
-## 8. Faire clignoter le prix qui change
+## 9. Faire clignoter le prix qui change
 
-À faire avec l'évolution 9 ou 10. Avec le seul bouton « Rafraîchir », la liste est remplacée par l'écran de chargement à chaque fois : la ligne est recréée, elle ne se souvient plus de l'ancien prix et rien ne clignote. Prenez donc au moins l'une des deux pour pouvoir faire la démonstration.
+À faire avec l'évolution 10 ou 11. Avec le seul bouton « Rafraîchir », la liste est remplacée par l'écran de chargement à chaque fois : la ligne est recréée, elle ne se souvient plus de l'ancien prix et rien ne clignote. Prenez donc au moins l'une des deux pour pouvoir faire la démonstration.
 
 🎯 Quand le prix d'une crypto change après un rafraîchissement, il clignote brièvement : en vert s'il a monté, en rouge s'il a baissé.
+
+<img src="img/evo-clignotement.png" width="360" alt="Le prix sur fond vert ou rouge">
 
 📏 Contraintes :
 
@@ -155,9 +189,11 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 ---
 
-## 9. Rafraîchir en tirant la liste
+## 10. Rafraîchir en tirant la liste
 
 🎯 Tirer la liste vers le bas la rafraîchit. Pendant le rafraîchissement, **la liste reste affichée** avec l'indicateur au-dessus : elle n'est pas remplacée par l'écran de chargement.
+
+<img src="img/evo-tirer.png" width="360" alt="L'indicateur au-dessus de la liste restée affichée">
 
 📏 Contraintes :
 
@@ -168,7 +204,7 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 ---
 
-## 10. Rafraîchir automatiquement
+## 11. Rafraîchir automatiquement
 
 🎯 Les prix se mettent à jour tout seuls toutes les dix secondes, sans que l'écran clignote.
 
@@ -181,23 +217,27 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 ---
 
-## 11. Les favoris
+## 12. Les favoris
 
-🎯 Une étoile sur chaque ligne ajoute ou retire la crypto des favoris. Un filtre n'affiche que les favoris. L'étoile est aussi présente, et à jour, sur l'écran de détail.
+🎯 Un bouton sur chaque ligne (un cœur, une étoile…) ajoute ou retire la crypto des favoris. Un filtre n'affiche que les favoris. Le bouton est aussi présent, et à jour, sur l'écran de détail.
+
+<img src="img/evo-favoris.png" width="360" alt="Un cœur par ligne et un filtre">
 
 📏 Contraintes :
 
 - Les favoris sont gérés par un **nouveau repository**, partagé par les deux écrans via `AppContainer`.
 - Il expose les favoris dans un `StateFlow` : quand on change un favori dans le détail, la liste est à jour au retour.
-- Les favoris peuvent être perdus à la fermeture de l'application (voir l'évolution 15).
+- Les favoris peuvent être perdus à la fermeture de l'application (voir l'évolution 16).
 
-💡 Pistes : un `Set<String>` de symboles suffit. Pour fabriquer un état à partir de **deux** flows (les cryptos et les favoris), regardez `combine` dans [la documentation des flows](https://kotlinlang.org/docs/flow.html). Les [boutons icônes](https://developer.android.com/develop/ui/compose/components/icon-button).
+💡 Pistes : un `Set<String>` de symboles suffit. Pour fabriquer un état à partir de **deux** flows (les cryptos et les favoris), regardez `combine` dans [la documentation des flows](https://kotlinlang.org/docs/flow.html). Les icônes `Favorite` et `FavoriteBorder` sont déjà dans le projet. Les [boutons icônes](https://developer.android.com/develop/ui/compose/components/icon-button).
 
 ---
 
-## 12. Un convertisseur
+## 13. Un convertisseur
 
 🎯 L'écran de détail contient une petite calculatrice. L'utilisateur saisit une quantité de crypto (« 0,5 BTC ») et lit sa valeur en dollars. Il peut aussi faire l'inverse : saisir un montant en dollars et lire la quantité de crypto correspondante.
+
+<img src="img/evo-convertisseur.png" width="360" alt="Deux champs liés : quantité et valeur">
 
 📏 Contraintes :
 
@@ -213,9 +253,11 @@ Pour aller plus loin : afficher aussi la valeur en **euros**. Binance fournit le
 
 ---
 
-## 13. Changer de devise
+## 14. Changer de devise
 
 🎯 L'utilisateur choisit d'afficher les prix en dollars ou en euros.
+
+<img src="img/evo-devise.png" width="360" alt="Les prix en euros">
 
 📏 Contraintes :
 
@@ -227,9 +269,11 @@ Pour aller plus loin : afficher aussi la valeur en **euros**. Binance fournit le
 
 ---
 
-## 14. Des messages d'erreur précis
+## 15. Des messages d'erreur précis
 
 🎯 L'écran d'erreur ne dit plus toujours « Impossible de charger les cours » : il distingue au moins l'absence de connexion, une erreur de notre côté (4xx) et une erreur du serveur (5xx).
+
+<img src="img/evo-erreurs.png" width="360" alt="Un message propre à l'absence de connexion">
 
 📦 Fourni : ce que Ktor lève. Notre client est configuré avec `expectSuccess = true` : d'après [la validation par défaut de Ktor](https://ktor.io/docs/client-response-validation.html#default), toute réponse dont le code n'est pas un succès (2xx) lève alors une exception.
 
@@ -263,9 +307,9 @@ Avec l'import `kotlinx.io.IOException`. Vous pouvez aussi couper le Wi-Fi, ou de
 
 ---
 
-## 15. Garder les favoris après fermeture
+## 16. Garder les favoris après fermeture
 
-Nécessite l'évolution 11.
+Nécessite l'évolution 12.
 
 🎯 Les favoris sont toujours là quand on relance l'application, sur Android comme sur Desktop.
 
@@ -283,9 +327,11 @@ Nécessite l'évolution 11.
 
 ---
 
-## 16. Le graphique du prix
+## 17. Le graphique du prix
 
 🎯 L'écran de détail affiche la courbe du prix sur les dernières 24 heures.
+
+<img src="img/evo-graphique.png" width="360" alt="La courbe sous le prix">
 
 Le dessin de la courbe est **fourni** : le travail de cette évolution est d'aller chercher les données et de les amener jusqu'à l'écran, à travers toutes les couches.
 
@@ -371,7 +417,7 @@ Pour aller plus loin : un choix de période (24 heures, 7 jours, 1 mois), ou vot
 
 ---
 
-## 17. Tester le ViewModel
+## 18. Tester le ViewModel
 
 🎯 Des tests automatiques vérifient le comportement de `CryptoListViewModel` : il démarre en chargement, passe en succès quand le repository répond, et en erreur quand il échoue.
 
@@ -391,7 +437,7 @@ org.jetbrains.kotlinx:kotlinx-coroutines-test
 
 ---
 
-## 18. Tester l'interface
+## 19. Tester l'interface
 
 🎯 Des tests automatiques affichent l'écran liste, cliquent dessus et vérifient ce qui se passe, sans lancer l'application à la main :
 
@@ -429,7 +475,7 @@ La fonction qui lance un test est `runComposeUiTest`. Prenez celle du package `a
 
 ---
 
-## 19. Votre idée
+## 20. Votre idée
 
 Une alerte quand un prix dépasse un seuil, un portefeuille fictif, un classement des plus fortes hausses… Si vous avez une idée qui n'est pas dans la liste, faites-la : sa difficulté sera estimée à la présentation.
 
