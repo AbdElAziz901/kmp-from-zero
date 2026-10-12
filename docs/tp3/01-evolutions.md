@@ -1,6 +1,6 @@
 # 1. Les évolutions
 
-Chaque évolution est décrite par son **résultat attendu**, les **couches** qu'elle touche et quelques **pistes**. Il n'y a pas de solution : c'est à vous de chercher, comme au TP 2.
+Chaque évolution est décrite par son **résultat attendu**, les **couches** qu'elle touche et quelques **pistes**. Il n'y a pas de solution : c'est à vous de chercher.
 
 Le nombre d'étoiles indique la difficulté.
 
@@ -22,9 +22,9 @@ Le nombre d'étoiles indique la difficulté.
 | [13. Des messages d'erreur précis](#13-des-messages-derreur-précis) | ⭐⭐ | API, repository, ViewModel, état, interface |
 | [14. Garder les favoris après fermeture](#14-garder-les-favoris-après-fermeture) | ⭐⭐⭐ | Bibliothèques, repository |
 | [15. Le graphique du prix](#15-le-graphique-du-prix) | ⭐⭐⭐ | API, repository, modèle, ViewModel, interface |
-| [16. Deux panneaux sur grand écran](#16-deux-panneaux-sur-grand-écran) | ⭐⭐⭐ | Interface, navigation |
-| [17. Tester le ViewModel](#17-tester-le-viewmodel) | ⭐⭐⭐ | Tests, bibliothèques |
-| [18. Votre idée](#18-votre-idée) | à valider | – |
+| [16. Tester le ViewModel](#16-tester-le-viewmodel) | ⭐⭐⭐ | Tests, bibliothèques |
+| [17. Tester l'interface](#17-tester-linterface) | ⭐⭐⭐ | Tests, bibliothèques |
+| [18. Votre idée](#18-votre-idée) | libre | – |
 
 > [!TIP]
 > Commencez par l'évolution obligatoire, puis par une ⭐ : mieux vaut trois évolutions terminées qu'une ⭐⭐⭐ qui ne fonctionne pas.
@@ -142,6 +142,8 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 ## 7. Faire clignoter le prix qui change
 
+À faire avec l'évolution 8 ou 9. Avec le seul bouton « Rafraîchir », la liste est remplacée par l'écran de chargement à chaque fois : la ligne est recréée, elle ne se souvient plus de l'ancien prix et rien ne clignote. Prenez donc au moins l'une des deux pour pouvoir faire la démonstration.
+
 🎯 Quand le prix d'une crypto change après un rafraîchissement, il clignote brièvement : en vert s'il a monté, en rouge s'il a baissé.
 
 📏 Contraintes :
@@ -149,7 +151,7 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 - C'est le composable qui compare le nouveau prix à l'ancien : rien à ajouter au ViewModel.
 - Un prix inchangé ne clignote pas, et rien ne clignote au premier affichage.
 
-💡 Pistes : `remember` pour garder le prix précédent, `LaunchedEffect(price)` pour réagir au changement, `animateColorAsState` pour la transition. Voir [le guide des animations](https://developer.android.com/develop/ui/compose/animation/quick-guide). Cette évolution est plus agréable à tester avec le rafraîchissement automatique.
+💡 Pistes : `remember` pour garder le prix précédent, `LaunchedEffect(price)` pour réagir au changement, `animateColorAsState` pour la transition. Voir [le guide des animations](https://developer.android.com/develop/ui/compose/animation/quick-guide).
 
 ---
 
@@ -369,20 +371,7 @@ Pour aller plus loin : un choix de période (24 heures, 7 jours, 1 mois), ou vot
 
 ---
 
-## 16. Deux panneaux sur grand écran
-
-🎯 Sur un écran large (la fenêtre Desktop agrandie, une tablette), la liste et le détail s'affichent **côte à côte**. Sur un écran étroit, rien ne change.
-
-📏 Contraintes :
-
-- La crypto sélectionnée est mise en évidence dans la liste.
-- Redimensionner la fenêtre fait passer d'une mise en page à l'autre sans perdre la crypto sélectionnée.
-
-💡 Pistes : [les mises en page adaptatives](https://developer.android.com/develop/ui/compose/layouts/adaptive) ; `BoxWithConstraints` donne la largeur disponible. Les écrans ne connaissent pas le `NavController` : c'est le moment d'en profiter.
-
----
-
-## 17. Tester le ViewModel
+## 16. Tester le ViewModel
 
 🎯 Des tests automatiques vérifient le comportement de `CryptoListViewModel` : il démarre en chargement, passe en succès quand le repository répond, et en erreur quand il échoue.
 
@@ -402,9 +391,47 @@ org.jetbrains.kotlinx:kotlinx-coroutines-test
 
 ---
 
+## 17. Tester l'interface
+
+🎯 Des tests automatiques affichent l'écran liste, cliquent dessus et vérifient ce qui se passe, sans lancer l'application à la main :
+
+- en état de succès, les cryptos sont affichées, et un clic sur une ligne remonte le bon symbole ;
+- en état d'erreur, le message est affiché, et un clic sur « Réessayer » déclenche le rechargement ;
+- en état de chargement, la liste n'est pas affichée.
+
+📦 Fourni : la bibliothèque de test de Compose Multiplatform. Elle a la même version que Compose Multiplatform dans le catalogue.
+
+```
+org.jetbrains.compose.ui:ui-test
+```
+
+Dans `shared/build.gradle.kts`, il faut aussi donner aux tests Desktop de quoi dessiner l'interface :
+
+```kotlin
+commonTest.dependencies {
+    // ... kotlin-test, déjà présent
+    implementation(libs.compose.uiTest) // le nom que vous lui aurez donné dans le catalogue
+}
+jvmTest.dependencies {
+    implementation(compose.desktop.currentOs)
+}
+```
+
+La fonction qui lance un test est `runComposeUiTest`. Prenez celle du package `androidx.compose.ui.test.v2`, avec l'annotation `@OptIn(ExperimentalTestApi::class)` sur la classe de test.
+
+📏 Contraintes :
+
+- Les tests sont dans `shared/src/commonTest` et passent avec `./gradlew :shared:jvmTest`.
+- Ils portent sur `CryptoListContent`, pas sur `App()` : aucun réseau, aucun ViewModel.
+- Au moins un test par état de l'écran.
+
+💡 Pistes : [tester une interface Compose Multiplatform](https://kotlinlang.org/docs/multiplatform/compose-test.html), et [les API de test de Compose](https://developer.android.com/develop/ui/compose/testing/apis) : `setContent`, `onNodeWithText`, `performClick`, `assertIsDisplayed`, `assertDoesNotExist`. Pour vérifier qu'un clic a bien eu lieu, passez un callback qui note ce qu'il reçoit dans une variable. Vous voyez maintenant l'intérêt d'avoir séparé `CryptoListScreen` et `CryptoListContent`.
+
+---
+
 ## 18. Votre idée
 
-Une alerte quand un prix dépasse un seuil, un convertisseur, un portefeuille fictif, un changement de thème… Proposez-la **avant** de commencer : on fixe ensemble sa difficulté.
+Une alerte quand un prix dépasse un seuil, un portefeuille fictif, un classement des plus fortes hausses… Si vous avez une idée qui n'est pas dans la liste, faites-la : sa difficulté sera estimée à la présentation.
 
 ---
 
