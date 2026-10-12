@@ -17,13 +17,14 @@ Le nombre d'étoiles indique la difficulté.
 | [8. Rafraîchir en tirant la liste](#8-rafraîchir-en-tirant-la-liste) | ⭐⭐ | ViewModel, état, interface |
 | [9. Rafraîchir automatiquement](#9-rafraîchir-automatiquement) | ⭐⭐ | ViewModel |
 | [10. Les favoris](#10-les-favoris) | ⭐⭐ | Repository, ViewModel, état, interface |
-| [11. Changer de devise](#11-changer-de-devise) | ⭐⭐ | API, repository, ViewModel, interface |
-| [12. Des messages d'erreur précis](#12-des-messages-derreur-précis) | ⭐⭐ | Repository, ViewModel, état, interface |
-| [13. Garder les favoris après fermeture](#13-garder-les-favoris-après-fermeture) | ⭐⭐⭐ | Bibliothèques, repository |
-| [14. Le graphique du prix](#14-le-graphique-du-prix) | ⭐⭐⭐ | API, repository, modèle, ViewModel, interface |
-| [15. Deux panneaux sur grand écran](#15-deux-panneaux-sur-grand-écran) | ⭐⭐⭐ | Interface, navigation |
-| [16. Tester le ViewModel](#16-tester-le-viewmodel) | ⭐⭐⭐ | Tests, bibliothèques |
-| [17. Votre idée](#17-votre-idée) | à valider | – |
+| [11. Un convertisseur](#11-un-convertisseur) | ⭐⭐ | ViewModel, état, interface |
+| [12. Changer de devise](#12-changer-de-devise) | ⭐⭐ | API, repository, ViewModel, interface |
+| [13. Des messages d'erreur précis](#13-des-messages-derreur-précis) | ⭐⭐ | API, repository, ViewModel, état, interface |
+| [14. Garder les favoris après fermeture](#14-garder-les-favoris-après-fermeture) | ⭐⭐⭐ | Bibliothèques, repository |
+| [15. Le graphique du prix](#15-le-graphique-du-prix) | ⭐⭐⭐ | API, repository, modèle, ViewModel, interface |
+| [16. Deux panneaux sur grand écran](#16-deux-panneaux-sur-grand-écran) | ⭐⭐⭐ | Interface, navigation |
+| [17. Tester le ViewModel](#17-tester-le-viewmodel) | ⭐⭐⭐ | Tests, bibliothèques |
+| [18. Votre idée](#18-votre-idée) | à valider | – |
 
 > [!TIP]
 > Commencez par l'évolution obligatoire, puis par une ⭐ : mieux vaut trois évolutions terminées qu'une ⭐⭐⭐ qui ne fonctionne pas.
@@ -133,6 +134,7 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 - Le squelette a la même forme que la vraie liste : même hauteur de ligne, des blocs à la place des textes.
 - L'animation tourne en boucle tant que dure le chargement.
 - Aucune bibliothèque supplémentaire.
+- **Pour la présentation**, prévoyez de quoi montrer le squelette : le réseau répond trop vite pour qu'on ait le temps de le voir. Par exemple un `delay(5_000)` écrit en dur dans le repository, juste avant l'appel à l'API.
 
 💡 Pistes : `rememberInfiniteTransition`, dans [les animations basées sur une valeur](https://developer.android.com/develop/ui/compose/animation/value-based) ; un dégradé qui se déplace, avec [`Brush`](https://developer.android.com/develop/ui/compose/graphics/draw/brush). Commencez par un squelette immobile, puis animez-le. `FakeCryptoRepository` et son `delay` sont parfaits pour l'observer longtemps.
 
@@ -185,13 +187,31 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 - Les favoris sont gérés par un **nouveau repository**, partagé par les deux écrans via `AppContainer`.
 - Il expose les favoris dans un `StateFlow` : quand on change un favori dans le détail, la liste est à jour au retour.
-- Les favoris peuvent être perdus à la fermeture de l'application (voir l'évolution 13).
+- Les favoris peuvent être perdus à la fermeture de l'application (voir l'évolution 14).
 
 💡 Pistes : un `Set<String>` de symboles suffit. Pour fabriquer un état à partir de **deux** flows (les cryptos et les favoris), regardez `combine` dans [la documentation des flows](https://kotlinlang.org/docs/flow.html). Les [boutons icônes](https://developer.android.com/develop/ui/compose/components/icon-button).
 
 ---
 
-## 11. Changer de devise
+## 11. Un convertisseur
+
+🎯 L'écran de détail contient une petite calculatrice. L'utilisateur saisit une quantité de crypto (« 0,5 BTC ») et lit sa valeur en dollars. Il peut aussi faire l'inverse : saisir un montant en dollars et lire la quantité de crypto correspondante.
+
+📏 Contraintes :
+
+- Le calcul utilise le prix affiché à l'écran : quand le prix est rafraîchi, le résultat suit.
+- Les deux champs sont liés : modifier l'un met à jour l'autre.
+- Une saisie invalide (champ vide, lettres, virgule ou point) ne fait pas planter l'application.
+- Le texte saisi et le calcul sont dans le **ViewModel**, pas dans le composable.
+- Le clavier affiché sur téléphone est un clavier numérique.
+
+💡 Pistes : [les champs de texte](https://developer.android.com/develop/ui/compose/text/user-input) et leur `keyboardOptions` ; `toDoubleOrNull` pour lire un nombre sans risque. Quel champ a été modifié en dernier ? C'est lui qui fait foi.
+
+Pour aller plus loin : afficher aussi la valeur en **euros**. Binance fournit le prix en euros avec les paires `BTCEUR`, `ETHEUR`… : quelles couches faut-il modifier pour l'obtenir ?
+
+---
+
+## 12. Changer de devise
 
 🎯 L'utilisateur choisit d'afficher les prix en dollars ou en euros.
 
@@ -205,20 +225,43 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 ---
 
-## 12. Des messages d'erreur précis
+## 13. Des messages d'erreur précis
 
-🎯 L'écran d'erreur ne dit plus toujours « Impossible de charger les cours » : il distingue au moins l'absence de connexion d'une erreur du serveur.
+🎯 L'écran d'erreur ne dit plus toujours « Impossible de charger les cours » : il distingue au moins l'absence de connexion, une erreur de notre côté (4xx) et une erreur du serveur (5xx).
+
+📦 Fourni : ce que Ktor lève. Notre client est configuré avec `expectSuccess = true` : d'après [la validation par défaut de Ktor](https://ktor.io/docs/client-response-validation.html#default), toute réponse dont le code n'est pas un succès (2xx) lève alors une exception.
+
+| Situation | Exception |
+|---|---|
+| Réponse 3xx | `RedirectResponseException` |
+| Réponse 4xx (mauvaise requête, paire inconnue…) | `ClientRequestException` |
+| Réponse 5xx (le serveur est en panne) | `ServerResponseException` |
+| Pas de connexion | `IOException` (celle de `kotlinx.io`) |
+
+Les trois premières héritent de `ResponseException`, et donnent accès au code avec `e.response.status`.
+
+📦 Fourni aussi : de quoi **simuler** chaque erreur. On ne peut pas créer soi-même une `ServerResponseException` (il lui faut une vraie réponse) : on demande donc à un serveur de test de répondre avec le code voulu, et c'est Ktor qui lève l'exception. Collez ces lignes au début de `BinanceApi.getTickers` et décommentez-en **une** à la fois :
+
+```kotlin
+// Pour simuler une erreur, décommente UNE de ces lignes :
+// throw IOException("Pas de connexion")              // pas de réseau
+// client.get("https://httpbin.org/status/404")       // 4xx → ClientRequestException
+// client.get("https://httpbin.org/status/500")       // 5xx → ServerResponseException
+```
+
+Avec l'import `kotlinx.io.IOException`. Vous pouvez aussi couper le Wi-Fi, ou demander à Binance une paire qui n'existe pas (réponse 400).
 
 📏 Contraintes :
 
 - Le ViewModel ne connaît pas Ktor : c'est le repository qui traduit les exceptions techniques en erreurs que l'application comprend.
 - L'interface choisit le message à partir du **type** d'erreur, pas d'un texte venu du repository.
+- **Pour la présentation**, gardez les lignes de simulation en commentaire dans le code : vous montrerez chaque message en en décommentant une.
 
-💡 Pistes : provoquez les deux cas (coupez le Wi-Fi ; demandez une paire qui n'existe pas) et affichez l'exception pour voir ce que Ktor lève. Voir [la validation des réponses](https://ktor.io/docs/client-response-validation.html). Une `sealed interface` peut décrire vos erreurs, comme elle décrit déjà l'état de l'écran.
+💡 Pistes : une `sealed interface` peut décrire vos erreurs, comme elle décrit déjà l'état de l'écran. Dans le repository, un `try` / `catch` par type d'exception ; attention à l'ordre des `catch`.
 
 ---
 
-## 13. Garder les favoris après fermeture
+## 14. Garder les favoris après fermeture
 
 Nécessite l'évolution 10.
 
@@ -238,7 +281,7 @@ Nécessite l'évolution 10.
 
 ---
 
-## 14. Le graphique du prix
+## 15. Le graphique du prix
 
 🎯 L'écran de détail affiche la courbe du prix sur les dernières 24 heures.
 
@@ -326,7 +369,7 @@ Pour aller plus loin : un choix de période (24 heures, 7 jours, 1 mois), ou vot
 
 ---
 
-## 15. Deux panneaux sur grand écran
+## 16. Deux panneaux sur grand écran
 
 🎯 Sur un écran large (la fenêtre Desktop agrandie, une tablette), la liste et le détail s'affichent **côte à côte**. Sur un écran étroit, rien ne change.
 
@@ -339,7 +382,7 @@ Pour aller plus loin : un choix de période (24 heures, 7 jours, 1 mois), ou vot
 
 ---
 
-## 16. Tester le ViewModel
+## 17. Tester le ViewModel
 
 🎯 Des tests automatiques vérifient le comportement de `CryptoListViewModel` : il démarre en chargement, passe en succès quand le repository répond, et en erreur quand il échoue.
 
@@ -359,7 +402,7 @@ org.jetbrains.kotlinx:kotlinx-coroutines-test
 
 ---
 
-## 17. Votre idée
+## 18. Votre idée
 
 Une alerte quand un prix dépasse un seuil, un convertisseur, un portefeuille fictif, un changement de thème… Proposez-la **avant** de commencer : on fixe ensemble sa difficulté.
 
