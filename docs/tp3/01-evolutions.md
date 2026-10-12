@@ -1,0 +1,209 @@
+# 1. Les évolutions
+
+Chaque évolution est décrite par son **résultat attendu**, les **couches** qu'elle touche et quelques **pistes**. Il n'y a pas de solution : c'est à vous de chercher, comme au TP 2.
+
+Le nombre d'étoiles indique la difficulté, et le nombre de points que l'évolution rapporte (voir [l'évaluation](02-evaluation.md)).
+
+| Évolution | Difficulté | Couches |
+|---|---|---|
+| [0. Le plus haut et le plus bas sur 24h](#0-le-plus-haut-et-le-plus-bas-sur-24h) | **Obligatoire** | API, repository, modèle, interface |
+| [1. Trier la liste](#1-trier-la-liste) | ⭐ | ViewModel, interface |
+| [2. Rechercher une crypto](#2-rechercher-une-crypto) | ⭐ | ViewModel, interface |
+| [3. Suivre d'autres cryptos](#3-suivre-dautres-cryptos) | ⭐ | Repository |
+| [4. Afficher les logos](#4-afficher-les-logos) | ⭐⭐ | Bibliothèques, modèle, interface |
+| [5. Rafraîchir en tirant la liste](#5-rafraîchir-en-tirant-la-liste) | ⭐⭐ | ViewModel, état, interface |
+| [6. Rafraîchir automatiquement](#6-rafraîchir-automatiquement) | ⭐⭐ | ViewModel |
+| [7. Les favoris](#7-les-favoris) | ⭐⭐ | Repository, ViewModel, état, interface |
+| [8. Garder les favoris après fermeture](#8-garder-les-favoris-après-fermeture) | ⭐⭐⭐ | Bibliothèques, repository |
+| [9. Le graphique du prix](#9-le-graphique-du-prix) | ⭐⭐⭐ | API, repository, modèle, ViewModel, interface |
+| [10. Deux panneaux sur grand écran](#10-deux-panneaux-sur-grand-écran) | ⭐⭐⭐ | Interface, navigation |
+| [11. Votre idée](#11-votre-idée) | à valider | – |
+
+> [!TIP]
+> Commencez par l'évolution obligatoire, puis par une ⭐ : mieux vaut trois évolutions terminées qu'une ⭐⭐⭐ qui ne fonctionne pas.
+
+---
+
+## 0. Le plus haut et le plus bas sur 24h
+
+**Obligatoire.** C'est la plus petite évolution qui traverse **toutes** les couches : vous refaites seuls le trajet vu en séance.
+
+🎯 L'écran de détail affiche, sous la variation, le prix le plus haut et le prix le plus bas des dernières 24 heures.
+
+📏 Contraintes :
+
+- Les deux valeurs viennent de l'API : regardez la réponse de Binance, elles y sont déjà.
+- `Crypto` reste un modèle propre : des `Double`, pas des `String`.
+- `FakeCryptoRepository` continue de fonctionner.
+
+💡 Pistes : suivez la donnée dans l'ordre, du JSON jusqu'à l'écran. Quatre fichiers au moins sont concernés.
+
+---
+
+## 1. Trier la liste
+
+🎯 L'utilisateur choisit l'ordre de la liste : par prix, par variation sur 24h ou par nom.
+
+📏 Contraintes :
+
+- Le tri est fait dans le **ViewModel**, pas dans le composable.
+- Le tri choisi reste appliqué après un rafraîchissement.
+
+💡 Pistes : une `enum class` pour les tris possibles ; `sortedBy` et `sortedByDescending` ; pour le choix, des [chips](https://developer.android.com/develop/ui/compose/components/chip) ou un [menu](https://developer.android.com/develop/ui/compose/components/menu).
+
+---
+
+## 2. Rechercher une crypto
+
+🎯 Un champ de texte au-dessus de la liste filtre les cryptos par nom ou par symbole, sans tenir compte des majuscules.
+
+📏 Contraintes :
+
+- Le texte saisi et le filtrage sont dans le **ViewModel**.
+- Si aucune crypto ne correspond, l'écran le dit au lieu d'afficher une liste vide.
+
+💡 Pistes : [les champs de texte](https://developer.android.com/develop/ui/compose/text/user-input) ; `filter` et `contains(..., ignoreCase = true)`. Où garder la liste complète pendant qu'on affiche la liste filtrée ?
+
+---
+
+## 3. Suivre d'autres cryptos
+
+🎯 La liste contient au moins quinze cryptos.
+
+📏 Contraintes :
+
+- Aucune modification dans `ui`.
+- Chaque crypto ajoutée a son vrai nom.
+
+💡 Pistes : cherchez les paires disponibles sur [binance.com](https://www.binance.com/fr/markets/overview). Que se passe-t-il si vous demandez une paire qui n'existe pas ? Comment l'application réagit-elle ?
+
+---
+
+## 4. Afficher les logos
+
+🎯 Chaque ligne de la liste, et l'écran de détail, affichent le logo de la crypto.
+
+📦 Fourni : les logos sont disponibles à l'adresse suivante, avec le symbole en minuscules.
+
+```
+https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/btc.png
+```
+
+Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Versions testées pour ce projet :
+
+| Coordonnées | Version |
+|---|---|
+| `io.coil-kt.coil3:coil-compose` | 3.6.3 |
+| `io.coil-kt.coil3:coil-network-ktor3` | 3.6.3 |
+
+📏 Contraintes :
+
+- Les bibliothèques sont déclarées dans le catalogue de versions, comme à l'étape 8 du TP 2.
+- Tant que l'image n'est pas chargée, ou si elle n'existe pas, la ligne affiche autre chose qu'un trou : les initiales, par exemple.
+
+💡 Pistes : [Coil et Compose](https://coil-kt.github.io/coil/compose/), [Coil et le réseau](https://coil-kt.github.io/coil/network/). Qui doit construire l'adresse du logo : le composable, ou le modèle ?
+
+---
+
+## 5. Rafraîchir en tirant la liste
+
+🎯 Tirer la liste vers le bas la rafraîchit. Pendant le rafraîchissement, **la liste reste affichée** avec l'indicateur au-dessus : elle n'est pas remplacée par l'écran de chargement.
+
+📏 Contraintes :
+
+- Le premier chargement garde son écran de chargement plein écran.
+- L'état de l'interface doit pouvoir dire « j'ai des données **et** je suis en train de rafraîchir ».
+
+💡 Pistes : [Pull to refresh](https://developer.android.com/develop/ui/compose/components/pull-to-refresh). C'est surtout un travail sur `CryptoListUiState` : que faut-il lui ajouter ?
+
+---
+
+## 6. Rafraîchir automatiquement
+
+🎯 Les prix se mettent à jour tout seuls toutes les dix secondes, sans que l'écran clignote.
+
+📏 Contraintes :
+
+- Le rafraîchissement s'arrête quand on quitte l'écran.
+- Si un rafraîchissement automatique échoue, la liste déjà affichée reste à l'écran.
+
+💡 Pistes : une boucle et `delay` dans une coroutine du `viewModelScope`. Relisez la note « Pour aller plus loin » de l'[étape 6 du TP 2](../tp2/06-repository-et-etats.md) : c'est ici qu'elle devient utile. Voir aussi [l'annulation des coroutines](https://kotlinlang.org/docs/cancellation-and-timeouts.html).
+
+---
+
+## 7. Les favoris
+
+🎯 Une étoile sur chaque ligne ajoute ou retire la crypto des favoris. Un filtre n'affiche que les favoris. L'étoile est aussi présente, et à jour, sur l'écran de détail.
+
+📏 Contraintes :
+
+- Les favoris sont gérés par un **nouveau repository**, partagé par les deux écrans via `AppContainer`.
+- Il expose les favoris dans un `StateFlow` : quand on change un favori dans le détail, la liste est à jour au retour.
+- Les favoris peuvent être perdus à la fermeture de l'application (voir l'évolution 8).
+
+💡 Pistes : un `Set<String>` de symboles suffit. Pour fabriquer un état à partir de **deux** flows (les cryptos et les favoris), regardez `combine` dans [la documentation des flows](https://kotlinlang.org/docs/flow.html). Les [boutons icônes](https://developer.android.com/develop/ui/compose/components/icon-button).
+
+---
+
+## 8. Garder les favoris après fermeture
+
+Nécessite l'évolution 7.
+
+🎯 Les favoris sont toujours là quand on relance l'application, sur Android comme sur Desktop.
+
+📦 Fourni : la bibliothèque **Multiplatform Settings**, version testée pour ce projet.
+
+| Coordonnées | Version |
+|---|---|
+| `com.russhwolf:multiplatform-settings-no-arg` | 1.3.0 |
+
+📏 Contraintes :
+
+- Seul le repository des favoris change. Ni les ViewModels ni les composables ne savent où les favoris sont stockés.
+
+💡 Pistes : [Multiplatform Settings](https://github.com/russhwolf/multiplatform-settings). Elle ne stocke que des valeurs simples : comment enregistrer un ensemble de symboles dans une seule `String` ?
+
+---
+
+## 9. Le graphique du prix
+
+🎯 L'écran de détail affiche la courbe du prix sur les dernières 24 heures.
+
+📦 Fourni : l'API des « bougies » de Binance. Ouvrez-la dans le navigateur avant de coder.
+
+```
+https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=24
+```
+
+Chaque élément est un **tableau** : l'heure d'ouverture en millisecondes, puis les prix d'ouverture, le plus haut, le plus bas et de clôture, sous forme de texte.
+
+📏 Contraintes :
+
+- Un nouveau modèle pour un point de la courbe, et une nouvelle fonction dans le contrat du repository.
+- Le graphique a ses propres états de chargement et d'erreur : s'il échoue, le reste de l'écran de détail s'affiche quand même.
+- La courbe est dessinée par vous, sans bibliothèque de graphiques.
+
+💡 Pistes : la réponse n'est pas une liste d'objets, donc pas de `data class` pour le DTO : regardez `JsonArray` dans kotlinx.serialization. Pour le dessin, [`Canvas`](https://developer.android.com/develop/ui/compose/graphics/draw/overview) et `Path`. Souvenez-vous du TP 1 : dans un `Canvas`, on travaille en pixels.
+
+---
+
+## 10. Deux panneaux sur grand écran
+
+🎯 Sur un écran large (la fenêtre Desktop agrandie, une tablette), la liste et le détail s'affichent **côte à côte**. Sur un écran étroit, rien ne change.
+
+📏 Contraintes :
+
+- La crypto sélectionnée est mise en évidence dans la liste.
+- Redimensionner la fenêtre fait passer d'une mise en page à l'autre sans perdre la crypto sélectionnée.
+
+💡 Pistes : [les mises en page adaptatives](https://developer.android.com/develop/ui/compose/layouts/adaptive) ; `BoxWithConstraints` donne la largeur disponible. Les écrans ne connaissent pas le `NavController` : c'est le moment d'en profiter.
+
+---
+
+## 11. Votre idée
+
+Une alerte quand un prix dépasse un seuil, un convertisseur, un portefeuille fictif, un changement de thème… Proposez-la **avant** de commencer : on fixe ensemble sa difficulté.
+
+---
+
+[⬅️ Sommaire](README.md) · [L'évaluation ➡️](02-evaluation.md)
