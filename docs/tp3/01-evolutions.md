@@ -2,7 +2,15 @@
 
 Chaque évolution est décrite par son **résultat attendu**, les **couches** qu'elle touche et quelques **pistes**. Il n'y a pas de solution : c'est à vous de chercher, comme au TP 2.
 
-Le nombre d'étoiles indique la difficulté, et le nombre de points que l'évolution rapporte (voir [l'évaluation](02-evaluation.md)).
+Le nombre d'étoiles indique la difficulté. Pour vous aider à choisir, voici un ordre de grandeur du temps à prévoir **à deux** :
+
+| Difficulté | Temps à prévoir |
+|---|---|
+| ⭐ | 30 à 45 minutes |
+| ⭐⭐ | environ 1 heure |
+| ⭐⭐⭐ | 1h30 à 2 heures |
+
+Vous avez 3h45 en tout, évolution obligatoire comprise : faites le calcul avant de vous lancer.
 
 | Évolution | Difficulté | Couches |
 |---|---|---|
@@ -169,6 +177,8 @@ Nécessite l'évolution 7.
 
 🎯 L'écran de détail affiche la courbe du prix sur les dernières 24 heures.
 
+Le dessin de la courbe est **fourni** : le travail de cette évolution est d'aller chercher les données et de les amener jusqu'à l'écran, à travers toutes les couches.
+
 📦 Fourni : l'API des « bougies » de Binance. Ouvrez-la dans le navigateur avant de coder.
 
 ```
@@ -177,13 +187,77 @@ https://data-api.binance.vision/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=2
 
 Chaque élément est un **tableau** : l'heure d'ouverture en millisecondes, puis les prix d'ouverture, le plus haut, le plus bas et de clôture, sous forme de texte.
 
+📦 Fourni aussi : le composable qui trace la courbe, à créer dans `ui/detail/PriceChart.kt`. Il reçoit la liste des prix, du plus ancien au plus récent.
+
+<details>
+<summary>📄 <code>ui/detail/PriceChart.kt</code></summary>
+
+```kotlin
+package com.bvic.followmycrypto.ui.detail
+
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.bvic.followmycrypto.theme.FollowMyCryptoTheme
+import com.bvic.followmycrypto.theme.PriceDown
+import com.bvic.followmycrypto.theme.PriceUp
+
+// Trace la courbe d'une suite de prix, du plus ancien au plus récent
+@Composable
+fun PriceChart(prices: List<Double>, modifier: Modifier = Modifier) {
+    if (prices.size < 2) return
+
+    val color = if (prices.last() >= prices.first()) PriceUp else PriceDown
+    val min = prices.min()
+    val max = prices.max()
+    // Évite une division par zéro si tous les prix sont identiques
+    val range = if (max > min) max - min else 1.0
+
+    Canvas(modifier = modifier.fillMaxWidth().height(200.dp)) {
+        val stepX = size.width / (prices.size - 1)
+        val path = Path()
+        prices.forEachIndexed { index, price ->
+            val x = index * stepX
+            // Le prix le plus haut est en haut : dans un Canvas, y = 0 est le bord supérieur
+            val y = size.height - ((price - min) / range).toFloat() * size.height
+            if (index == 0) path.moveTo(x, y) else path.lineTo(x, y)
+        }
+        drawPath(
+            path = path,
+            color = color,
+            style = Stroke(width = 2.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round),
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PriceChartPreview() {
+    FollowMyCryptoTheme {
+        PriceChart(prices = listOf(100.0, 104.0, 101.0, 108.0, 106.0, 112.0))
+    }
+}
+```
+
+</details>
+
 📏 Contraintes :
 
-- Un nouveau modèle pour un point de la courbe, et une nouvelle fonction dans le contrat du repository.
+- Une nouvelle fonction dans `BinanceApi`, et une nouvelle fonction dans le contrat du repository, qui renvoie les prix de clôture.
 - Le graphique a ses propres états de chargement et d'erreur : s'il échoue, le reste de l'écran de détail s'affiche quand même.
-- La courbe est dessinée par vous, sans bibliothèque de graphiques.
+- `FakeCryptoRepository` continue de fonctionner.
 
-💡 Pistes : la réponse n'est pas une liste d'objets, donc pas de `data class` pour le DTO : regardez `JsonArray` dans kotlinx.serialization. Pour le dessin, [`Canvas`](https://developer.android.com/develop/ui/compose/graphics/draw/overview) et `Path`. Souvenez-vous du TP 1 : dans un `Canvas`, on travaille en pixels.
+💡 Pistes : la réponse n'est pas une liste d'objets, donc pas de `data class` pour le DTO : regardez `JsonArray` dans kotlinx.serialization, et comment lire son cinquième élément. Commencez par afficher la courbe avec une liste de prix écrite à la main, puis branchez les vraies données.
+
+Pour aller plus loin : un choix de période (24 heures, 7 jours, 1 mois), ou votre propre version du dessin avec [`Canvas`](https://developer.android.com/develop/ui/compose/graphics/draw/overview).
 
 ---
 

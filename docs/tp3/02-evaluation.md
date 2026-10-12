@@ -13,17 +13,13 @@ Le projet est noté **par binôme**, sur 20.
 
 ### Les évolutions au choix (8 points)
 
-Chaque évolution **terminée** rapporte des points selon sa difficulté, dans la limite de 8 :
+Sont pris en compte :
 
-| Difficulté | Points |
-|---|---|
-| ⭐ | 2 |
-| ⭐⭐ | 3 |
-| ⭐⭐⭐ | 4 |
+- **le nombre** d'évolutions terminées ;
+- **leur difficulté** : une ⭐⭐⭐ compte davantage qu'une ⭐ ;
+- **leur finition** : une évolution est terminée quand elle fonctionne pendant la démonstration **et** qu'elle respecte ses contraintes.
 
-Une évolution est terminée quand elle fonctionne pendant la démonstration **et** qu'elle respecte ses contraintes. Une évolution qui fonctionne à moitié rapporte la moitié des points.
-
-Quelques façons d'atteindre 8 : quatre ⭐ ; une ⭐ et deux ⭐⭐ ; deux ⭐ et une ⭐⭐⭐ ; deux ⭐⭐⭐.
+Mieux vaut deux évolutions terminées que quatre à moitié faites.
 
 ### Le respect de l'architecture (4 points)
 
