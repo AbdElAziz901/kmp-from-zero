@@ -3,7 +3,6 @@ package com.bvic.followmycrypto.ui.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bvic.followmycrypto.data.CryptoRepository
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,8 +27,6 @@ class CryptoDetailViewModel(
         viewModelScope.launch {
             try {
                 _uiState.value = CryptoDetailUiState.Success(repository.getCrypto(symbol))
-            } catch (e: CancellationException) {
-                throw e
             } catch (e: Exception) {
                 _uiState.value = CryptoDetailUiState.Error("Impossible de charger $symbol.")
             }
