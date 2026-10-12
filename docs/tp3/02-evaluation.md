@@ -58,10 +58,29 @@ Quelques questions que vous pouvez préparer :
 
 ## 📦 Le rendu
 
-À la fin de la dernière séance, le code est poussé sur un dépôt Git (ou envoyé en zip), avec dans le `README` :
+À rendre **à la fin de la dernière séance**, de l'une des deux façons suivantes.
+
+### Avec une pull request
+
+Si vous avez travaillé avec Git (option A du [point de départ](README.md#-le-point-de-départ)) :
+
+1. Poussez votre branche sur votre fork.
+2. Sur GitHub, ouvrez une **pull request** de votre branche vers la branche `main` du dépôt [bvic-dev/kmp-from-zero](https://github.com/bvic-dev/kmp-from-zero).
+3. Donnez-lui pour titre `Projet – Dupont & Martin`, avec vos deux noms.
+
+La pull request ne sera pas fusionnée : elle sert à rendre votre travail, et à le relire.
+
+### Avec un zip
+
+Sinon, envoyez le dossier du projet compressé. Supprimez d'abord les dossiers `build` et `.gradle`, qui sont très volumineux et ne servent à rien.
+
+### Dans les deux cas : la description
+
+Dans la description de la pull request, ou dans un fichier `RENDU.md` à la racine du zip :
 
 - les noms des deux membres du binôme ;
-- la liste des évolutions réalisées, et leur état : terminée, partielle, abandonnée.
+- la liste des évolutions réalisées, avec leur état : terminée, partielle ou abandonnée ;
+- ce qui ne fonctionne pas, si vous le savez.
 
 ---
 
