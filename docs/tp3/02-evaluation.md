@@ -6,10 +6,14 @@ Le projet est noté **par binôme**, sur 20.
 
 | Critère | Points |
 |---|---|
-| L'évolution obligatoire fonctionne | 4 |
+| Au moins une évolution 🧱 fonctionne | 4 |
 | Les évolutions au choix | 8 |
 | Le respect de l'architecture | 4 |
 | La présentation | 4 |
+
+### Au moins une évolution 🧱 (4 points)
+
+Les évolutions marquées 🧱 dans [la liste](01-evolutions.md) font voyager une donnée de la couche données jusqu'à l'interface. Il vous en faut au moins une qui fonctionne : c'est elle qui montre que vous savez faire, seuls, le trajet vu en séance.
 
 ### Les évolutions au choix (8 points)
 

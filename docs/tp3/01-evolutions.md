@@ -2,38 +2,38 @@
 
 Chaque évolution est décrite par son **résultat attendu**, les **couches** qu'elle touche et quelques **pistes**. Il n'y a pas de solution : c'est à vous de chercher.
 
-Le nombre d'étoiles indique la difficulté.
+Le nombre d'étoiles indique la difficulté. Vous choisissez librement, avec une seule règle : **au moins une** de vos évolutions doit porter le symbole 🧱. Ce sont celles qui font voyager une donnée de la couche données jusqu'à l'interface.
 
-| Évolution | Difficulté | Couches |
-|---|---|---|
-| [0. Le plus haut et le plus bas sur 24h](#0-le-plus-haut-et-le-plus-bas-sur-24h) | **Obligatoire** | API, repository, modèle, interface |
-| [1. Trier la liste](#1-trier-la-liste) | ⭐ | ViewModel, interface |
-| [2. Rechercher une crypto](#2-rechercher-une-crypto) | ⭐ | ViewModel, interface |
-| [3. Suivre d'autres cryptos](#3-suivre-dautres-cryptos) | ⭐ | Repository |
-| [4. Choisir le thème clair ou sombre](#4-choisir-le-thème-clair-ou-sombre) | ⭐ | Interface |
-| [5. Afficher les logos](#5-afficher-les-logos) | ⭐⭐ | Bibliothèques, modèle, interface |
-| [6. Un squelette de chargement](#6-un-squelette-de-chargement) | ⭐⭐ | Interface |
-| [7. Faire clignoter le prix qui change](#7-faire-clignoter-le-prix-qui-change) | ⭐⭐ | Interface |
-| [8. Rafraîchir en tirant la liste](#8-rafraîchir-en-tirant-la-liste) | ⭐⭐ | ViewModel, état, interface |
-| [9. Rafraîchir automatiquement](#9-rafraîchir-automatiquement) | ⭐⭐ | ViewModel |
-| [10. Les favoris](#10-les-favoris) | ⭐⭐ | Repository, ViewModel, état, interface |
-| [11. Un convertisseur](#11-un-convertisseur) | ⭐⭐ | ViewModel, état, interface |
-| [12. Changer de devise](#12-changer-de-devise) | ⭐⭐ | API, repository, ViewModel, interface |
-| [13. Des messages d'erreur précis](#13-des-messages-derreur-précis) | ⭐⭐ | API, repository, ViewModel, état, interface |
-| [14. Garder les favoris après fermeture](#14-garder-les-favoris-après-fermeture) | ⭐⭐⭐ | Bibliothèques, repository |
-| [15. Le graphique du prix](#15-le-graphique-du-prix) | ⭐⭐⭐ | API, repository, modèle, ViewModel, interface |
-| [16. Tester le ViewModel](#16-tester-le-viewmodel) | ⭐⭐⭐ | Tests, bibliothèques |
-| [17. Tester l'interface](#17-tester-linterface) | ⭐⭐⭐ | Tests, bibliothèques |
-| [18. Votre idée](#18-votre-idée) | libre | – |
+| Évolution | Difficulté | Couches | |
+|---|---|---|---|
+| [1. Le plus haut et le plus bas sur 24h](#1-le-plus-haut-et-le-plus-bas-sur-24h) | ⭐ | API, repository, modèle, interface | 🧱 |
+| [2. Trier la liste](#2-trier-la-liste) | ⭐ | ViewModel, interface |  |
+| [3. Rechercher une crypto](#3-rechercher-une-crypto) | ⭐ | ViewModel, interface |  |
+| [4. Suivre d'autres cryptos](#4-suivre-dautres-cryptos) | ⭐ | Repository |  |
+| [5. Choisir le thème clair ou sombre](#5-choisir-le-thème-clair-ou-sombre) | ⭐ | Interface |  |
+| [6. Afficher les logos](#6-afficher-les-logos) | ⭐⭐ | Bibliothèques, modèle, interface |  |
+| [7. Un squelette de chargement](#7-un-squelette-de-chargement) | ⭐⭐ | Interface |  |
+| [8. Faire clignoter le prix qui change](#8-faire-clignoter-le-prix-qui-change) | ⭐⭐ | Interface |  |
+| [9. Rafraîchir en tirant la liste](#9-rafraîchir-en-tirant-la-liste) | ⭐⭐ | ViewModel, état, interface |  |
+| [10. Rafraîchir automatiquement](#10-rafraîchir-automatiquement) | ⭐⭐ | ViewModel |  |
+| [11. Les favoris](#11-les-favoris) | ⭐⭐ | Repository, ViewModel, état, interface | 🧱 |
+| [12. Un convertisseur](#12-un-convertisseur) | ⭐⭐ | ViewModel, état, interface |  |
+| [13. Changer de devise](#13-changer-de-devise) | ⭐⭐ | API, repository, ViewModel, interface | 🧱 |
+| [14. Des messages d'erreur précis](#14-des-messages-derreur-précis) | ⭐⭐ | API, repository, ViewModel, état, interface | 🧱 |
+| [15. Garder les favoris après fermeture](#15-garder-les-favoris-après-fermeture) | ⭐⭐⭐ | Bibliothèques, repository |  |
+| [16. Le graphique du prix](#16-le-graphique-du-prix) | ⭐⭐⭐ | API, repository, modèle, ViewModel, interface | 🧱 |
+| [17. Tester le ViewModel](#17-tester-le-viewmodel) | ⭐⭐⭐ | Tests, bibliothèques |  |
+| [18. Tester l'interface](#18-tester-linterface) | ⭐⭐⭐ | Tests, bibliothèques |  |
+| [19. Votre idée](#19-votre-idée) | libre | – |  |
 
 > [!TIP]
-> Commencez par l'évolution obligatoire, puis par une ⭐ : mieux vaut trois évolutions terminées qu'une ⭐⭐⭐ qui ne fonctionne pas.
+> Commencez par une ⭐ : mieux vaut trois évolutions terminées qu'une ⭐⭐⭐ qui ne fonctionne pas.
 
 ---
 
-## 0. Le plus haut et le plus bas sur 24h
+## 1. Le plus haut et le plus bas sur 24h
 
-**Obligatoire.** C'est la plus petite évolution qui traverse **toutes** les couches : vous refaites seuls le trajet vu en séance.
+C'est la plus petite évolution qui traverse **toutes** les couches : vous refaites seuls le trajet vu en séance. Un bon point de départ.
 
 🎯 L'écran de détail affiche, sous la variation, le prix le plus haut et le prix le plus bas des dernières 24 heures.
 
@@ -47,7 +47,7 @@ Le nombre d'étoiles indique la difficulté.
 
 ---
 
-## 1. Trier la liste
+## 2. Trier la liste
 
 🎯 L'utilisateur choisit l'ordre de la liste : par prix, par variation sur 24h ou par nom.
 
@@ -60,7 +60,7 @@ Le nombre d'étoiles indique la difficulté.
 
 ---
 
-## 2. Rechercher une crypto
+## 3. Rechercher une crypto
 
 🎯 Un champ de texte au-dessus de la liste filtre les cryptos par nom ou par symbole, sans tenir compte des majuscules.
 
@@ -73,7 +73,7 @@ Le nombre d'étoiles indique la difficulté.
 
 ---
 
-## 3. Suivre d'autres cryptos
+## 4. Suivre d'autres cryptos
 
 🎯 La liste contient au moins quinze cryptos.
 
@@ -86,7 +86,7 @@ Le nombre d'étoiles indique la difficulté.
 
 ---
 
-## 4. Choisir le thème clair ou sombre
+## 5. Choisir le thème clair ou sombre
 
 🎯 Un bouton dans la barre de titre bascule entre le thème clair et le thème sombre, quel que soit le réglage du téléphone.
 
@@ -99,7 +99,7 @@ Le nombre d'étoiles indique la difficulté.
 
 ---
 
-## 5. Afficher les logos
+## 6. Afficher les logos
 
 🎯 Chaque ligne de la liste, et l'écran de détail, affichent le logo de la crypto.
 
@@ -125,7 +125,7 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 ---
 
-## 6. Un squelette de chargement
+## 7. Un squelette de chargement
 
 🎯 Pendant le chargement, l'écran n'affiche plus un indicateur qui tourne mais un **squelette** : des lignes grises à la place des cryptos, parcourues par un reflet animé (effet *shimmer*).
 
@@ -140,9 +140,9 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 ---
 
-## 7. Faire clignoter le prix qui change
+## 8. Faire clignoter le prix qui change
 
-À faire avec l'évolution 8 ou 9. Avec le seul bouton « Rafraîchir », la liste est remplacée par l'écran de chargement à chaque fois : la ligne est recréée, elle ne se souvient plus de l'ancien prix et rien ne clignote. Prenez donc au moins l'une des deux pour pouvoir faire la démonstration.
+À faire avec l'évolution 9 ou 10. Avec le seul bouton « Rafraîchir », la liste est remplacée par l'écran de chargement à chaque fois : la ligne est recréée, elle ne se souvient plus de l'ancien prix et rien ne clignote. Prenez donc au moins l'une des deux pour pouvoir faire la démonstration.
 
 🎯 Quand le prix d'une crypto change après un rafraîchissement, il clignote brièvement : en vert s'il a monté, en rouge s'il a baissé.
 
@@ -155,7 +155,7 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 ---
 
-## 8. Rafraîchir en tirant la liste
+## 9. Rafraîchir en tirant la liste
 
 🎯 Tirer la liste vers le bas la rafraîchit. Pendant le rafraîchissement, **la liste reste affichée** avec l'indicateur au-dessus : elle n'est pas remplacée par l'écran de chargement.
 
@@ -168,7 +168,7 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 ---
 
-## 9. Rafraîchir automatiquement
+## 10. Rafraîchir automatiquement
 
 🎯 Les prix se mettent à jour tout seuls toutes les dix secondes, sans que l'écran clignote.
 
@@ -181,7 +181,7 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 ---
 
-## 10. Les favoris
+## 11. Les favoris
 
 🎯 Une étoile sur chaque ligne ajoute ou retire la crypto des favoris. Un filtre n'affiche que les favoris. L'étoile est aussi présente, et à jour, sur l'écran de détail.
 
@@ -189,13 +189,13 @@ Pour charger une image depuis Internet, utilisez la bibliothèque **Coil**. Vers
 
 - Les favoris sont gérés par un **nouveau repository**, partagé par les deux écrans via `AppContainer`.
 - Il expose les favoris dans un `StateFlow` : quand on change un favori dans le détail, la liste est à jour au retour.
-- Les favoris peuvent être perdus à la fermeture de l'application (voir l'évolution 14).
+- Les favoris peuvent être perdus à la fermeture de l'application (voir l'évolution 15).
 
 💡 Pistes : un `Set<String>` de symboles suffit. Pour fabriquer un état à partir de **deux** flows (les cryptos et les favoris), regardez `combine` dans [la documentation des flows](https://kotlinlang.org/docs/flow.html). Les [boutons icônes](https://developer.android.com/develop/ui/compose/components/icon-button).
 
 ---
 
-## 11. Un convertisseur
+## 12. Un convertisseur
 
 🎯 L'écran de détail contient une petite calculatrice. L'utilisateur saisit une quantité de crypto (« 0,5 BTC ») et lit sa valeur en dollars. Il peut aussi faire l'inverse : saisir un montant en dollars et lire la quantité de crypto correspondante.
 
@@ -213,7 +213,7 @@ Pour aller plus loin : afficher aussi la valeur en **euros**. Binance fournit le
 
 ---
 
-## 12. Changer de devise
+## 13. Changer de devise
 
 🎯 L'utilisateur choisit d'afficher les prix en dollars ou en euros.
 
@@ -227,7 +227,7 @@ Pour aller plus loin : afficher aussi la valeur en **euros**. Binance fournit le
 
 ---
 
-## 13. Des messages d'erreur précis
+## 14. Des messages d'erreur précis
 
 🎯 L'écran d'erreur ne dit plus toujours « Impossible de charger les cours » : il distingue au moins l'absence de connexion, une erreur de notre côté (4xx) et une erreur du serveur (5xx).
 
@@ -263,9 +263,9 @@ Avec l'import `kotlinx.io.IOException`. Vous pouvez aussi couper le Wi-Fi, ou de
 
 ---
 
-## 14. Garder les favoris après fermeture
+## 15. Garder les favoris après fermeture
 
-Nécessite l'évolution 10.
+Nécessite l'évolution 11.
 
 🎯 Les favoris sont toujours là quand on relance l'application, sur Android comme sur Desktop.
 
@@ -283,7 +283,7 @@ Nécessite l'évolution 10.
 
 ---
 
-## 15. Le graphique du prix
+## 16. Le graphique du prix
 
 🎯 L'écran de détail affiche la courbe du prix sur les dernières 24 heures.
 
@@ -371,7 +371,7 @@ Pour aller plus loin : un choix de période (24 heures, 7 jours, 1 mois), ou vot
 
 ---
 
-## 16. Tester le ViewModel
+## 17. Tester le ViewModel
 
 🎯 Des tests automatiques vérifient le comportement de `CryptoListViewModel` : il démarre en chargement, passe en succès quand le repository répond, et en erreur quand il échoue.
 
@@ -391,7 +391,7 @@ org.jetbrains.kotlinx:kotlinx-coroutines-test
 
 ---
 
-## 17. Tester l'interface
+## 18. Tester l'interface
 
 🎯 Des tests automatiques affichent l'écran liste, cliquent dessus et vérifient ce qui se passe, sans lancer l'application à la main :
 
@@ -429,7 +429,7 @@ La fonction qui lance un test est `runComposeUiTest`. Prenez celle du package `a
 
 ---
 
-## 18. Votre idée
+## 19. Votre idée
 
 Une alerte quand un prix dépasse un seuil, un portefeuille fictif, un classement des plus fortes hausses… Si vous avez une idée qui n'est pas dans la liste, faites-la : sa difficulté sera estimée à la présentation.
 
