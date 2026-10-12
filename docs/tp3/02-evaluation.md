@@ -43,12 +43,6 @@ Voir ci-dessous.
 
 **8 minutes par binôme**, à la deuxième moitié de la dernière séance.
 
-| Durée | Quoi |
-|---|---|
-| 3 min | **Démonstration** de l'application : ce que vous avez ajouté |
-| 3 min | **Le code d'une évolution**, au choix : vous suivez la donnée à travers les couches, du clic ou de l'API jusqu'à l'écran |
-| 2 min | **Questions** |
-
 Ce qui est attendu :
 
 - Les **deux** membres du binôme parlent.
