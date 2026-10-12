@@ -9,25 +9,9 @@ Les deux dernières séances sont un **projet en binôme** : vous partez de l'ap
 
 ## 🗓️ Le déroulé
 
-**Séance 3 (4h)**
+**Séance 3.** Je présente la fin du TP 2, des étapes 7 à 10 : [l'API Binance](../tp2/07-explorer-l-api.md), [les bibliothèques](../tp2/08-bibliotheques.md), [l'appel réseau](../tp2/09-appel-reseau.md), puis [la navigation et l'écran de détail](../tp2/10-navigation-et-detail.md). Ensuite, les projets commencent.
 
-| Durée | Quoi |
-|---|---|
-| 10 min | Rappel du TP 2 : ViewModel, état de l'interface, repository |
-| 15 min | [Étape 7 du TP 2](../tp2/07-explorer-l-api.md) : vous explorez l'API Binance |
-| 50 min | [Étapes 8](../tp2/08-bibliotheques.md) et [9](../tp2/09-appel-reseau.md), ensemble : les bibliothèques, puis l'appel réseau |
-| 20 min | [Étape 10](../tp2/10-navigation-et-detail.md), en démonstration : la navigation et l'écran de détail |
-| 10 min | Pause, récupération du point de départ, formation des binômes |
-| 2h15 | Projet |
-
-**Séance 4 (3h)**
-
-| Durée | Quoi |
-|---|---|
-| 1h30 | Projet |
-| 1h30 | Présentations : 8 minutes par binôme |
-
-Vous avez donc **3h45** de projet. Ce n'est pas beaucoup : choisissez vos évolutions en conséquence.
+**Séance 4.** Vous continuez le projet, puis chaque binôme présente son travail.
 
 ## 🏁 Le point de départ
 
