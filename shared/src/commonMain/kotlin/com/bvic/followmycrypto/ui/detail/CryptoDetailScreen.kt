@@ -30,6 +30,10 @@ import com.bvic.followmycrypto.ui.components.ErrorContent
 import com.bvic.followmycrypto.ui.components.LoadingContent
 import com.bvic.followmycrypto.ui.format.formatPercent
 import com.bvic.followmycrypto.ui.format.formatPrice
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 
 @Composable
 fun CryptoDetailScreen(
@@ -104,9 +108,56 @@ fun CryptoDetail(crypto: Crypto, modifier: Modifier = Modifier) {
             text = "${formatPercent(crypto.changePercent)} sur 24h",
             style = MaterialTheme.typography.titleMedium,
             color = if (crypto.changePercent >= 0) PriceUp else PriceDown,
+
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        PriceVariation(high24h = crypto.high24h, low24h = crypto.low24h)
+
     }
 }
+// Une ligne d'information : un libellé à gauche, une valeur à droite
+// Évolution 1 : le plus haut et le plus bas sur 24h
+@Composable
+fun PriceVariation(high24h: Double, low24h: Double, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        // Ligne 1 : le plus haut
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = "Plus haut 24h",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                text = formatPrice(high24h),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+        // Ligne 2 : le plus bas
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = "Plus bas 24h",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                text = formatPrice(low24h),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable
@@ -115,7 +166,7 @@ fun CryptoDetailContentPreview() {
         CryptoDetailContent(
             symbol = "BTC",
             uiState = CryptoDetailUiState.Success(
-                Crypto(symbol = "BTC", name = "Bitcoin", price = 85613.50, changePercent = 0.88),
+                Crypto(symbol = "BTC", name = "Bitcoin", price = 85613.50, changePercent = 0.88, high24h = 85666.01, low24h = 84120.00),
             ),
             onBack = {},
             onRetry = {},
