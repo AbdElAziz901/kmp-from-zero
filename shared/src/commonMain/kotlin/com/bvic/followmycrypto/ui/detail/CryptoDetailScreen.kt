@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import com.bvic.followmycrypto.ui.components.CryptoLogo
 
 @Composable
 fun CryptoDetailScreen(
@@ -94,6 +95,7 @@ fun CryptoDetail(crypto: Crypto, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        CryptoLogo(crypto = crypto, size = 72.dp)
         Text(
             text = crypto.name,
             style = MaterialTheme.typography.titleLarge,

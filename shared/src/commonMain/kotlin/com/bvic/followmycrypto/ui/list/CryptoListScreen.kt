@@ -35,6 +35,9 @@ import com.bvic.followmycrypto.ui.components.ErrorContent
 import com.bvic.followmycrypto.ui.components.LoadingContent
 import com.bvic.followmycrypto.ui.format.formatPercent
 import com.bvic.followmycrypto.ui.format.formatPrice
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
+import com.bvic.followmycrypto.ui.components.CryptoLogo
 
 @Composable
 fun CryptoListScreen(
@@ -113,6 +116,8 @@ fun CryptoRow(crypto: Crypto, onClick: () -> Unit, modifier: Modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        CryptoLogo(crypto = crypto)
+        Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = crypto.name,

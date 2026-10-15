@@ -7,5 +7,8 @@ data class Crypto(
     val changePercent: Double,
     val high24h: Double,
     val low24h: Double,
-
-)
+) {
+    // L'adresse du logo se déduit du symbole : un seul endroit sait comment la construire
+    val logoUrl: String
+        get() = "https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/${symbol.lowercase()}.png"
+}
