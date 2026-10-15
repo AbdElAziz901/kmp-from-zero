@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,15 +43,21 @@ fun CryptoDetailScreen(
     symbol: String,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: CryptoDetailViewModel = viewModel { CryptoDetailViewModel(symbol, AppContainer.cryptoRepository) },
+    viewModel: CryptoDetailViewModel = viewModel {
+        CryptoDetailViewModel(symbol, AppContainer.cryptoRepository, AppContainer.favoritesRepository)
+    },
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    // Évolution 12 : est-ce que cette crypto est en favori ?
+    val isFavorite by viewModel.isFavorite.collectAsStateWithLifecycle()
 
     CryptoDetailContent(
         symbol = symbol,
         uiState = uiState,
+        isFavorite = isFavorite,
         onBack = onBack,
         onRetry = viewModel::retry,
+        onToggleFavorite = viewModel::toggleFavorite,
         modifier = modifier,
     )
 }
@@ -58,8 +66,10 @@ fun CryptoDetailScreen(
 fun CryptoDetailContent(
     symbol: String,
     uiState: CryptoDetailUiState,
+    isFavorite: Boolean,
     onBack: () -> Unit,
     onRetry: () -> Unit,
+    onToggleFavorite: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -70,6 +80,16 @@ fun CryptoDetailContent(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                    }
+                },
+                // Évolution 12 : le cœur à droite de la barre du haut (plein = favori)
+                actions = {
+                    IconButton(onClick = onToggleFavorite) {
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                            contentDescription = if (isFavorite) "Retirer des favoris" else "Ajouter aux favoris",
+                            tint = if (isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                        )
                     }
                 },
             )
@@ -110,14 +130,12 @@ fun CryptoDetail(crypto: Crypto, modifier: Modifier = Modifier) {
             text = "${formatPercent(crypto.changePercent)} sur 24h",
             style = MaterialTheme.typography.titleMedium,
             color = if (crypto.changePercent >= 0) PriceUp else PriceDown,
-
         )
         Spacer(modifier = Modifier.height(16.dp))
         PriceVariation(high24h = crypto.high24h, low24h = crypto.low24h)
-
     }
 }
-// Une ligne d'information : un libellé à gauche, une valeur à droite
+
 // Évolution 1 : le plus haut et le plus bas sur 24h
 @Composable
 fun PriceVariation(high24h: Double, low24h: Double, modifier: Modifier = Modifier) {
@@ -160,7 +178,6 @@ fun PriceVariation(high24h: Double, low24h: Double, modifier: Modifier = Modifie
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun CryptoDetailContentPreview() {
@@ -170,8 +187,10 @@ fun CryptoDetailContentPreview() {
             uiState = CryptoDetailUiState.Success(
                 Crypto(symbol = "BTC", name = "Bitcoin", price = 85613.50, changePercent = 0.88, high24h = 85666.01, low24h = 84120.00),
             ),
+            isFavorite = true,
             onBack = {},
             onRetry = {},
+            onToggleFavorite = {},
         )
     }
 }

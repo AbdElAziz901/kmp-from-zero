@@ -137,7 +137,7 @@ fun CryptoList(
                 crypto = crypto,
                 isFavorite = crypto.symbol in favorites, // est-ce que CETTE crypto est en favori ?
                 onClick = { onCryptoClick(crypto.symbol) },
-                onToggleFavorite = { onToggleFavorite(crypto.symbol) }, 
+                onToggleFavorite = { onToggleFavorite(crypto.symbol) },
             ) //  CryptoRow reçoit 2 infos de plus
             HorizontalDivider()
         }
